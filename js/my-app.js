@@ -317,20 +317,27 @@ var ChartsGenerate = function(){
 ChartsGenerate.prototype.render =function(page){
     this.$page = $(page);
     this.page = Dom7(page);
+    var mySlider = myApp.slider('.slider-1', {
+
+      spaceBetween: 50,
+      paginationHide:false
+      // onSlideChangeEnd:function(mySlider){
+      //   $(".page-index .tab div:eq("+mySlider.activeSlideIndex+")").addClass("active").siblings().removeClass('active');
+      //   self.getChart(mySlider.activeSlideIndex+1);
+      // }
+    });
     this.operate();
 }
 ChartsGenerate.prototype.initcharts = function(option){
     this.option = option;
     // this.myChart = echarts.init(document.getElementById('main'));
-    var ctx1 = document.getElementById("canvas").getContext("2d");
+    var ctx1 = document.getElementById("chart1").getContext("2d");
     this.myChart = new Chart(ctx1).Line(this.option, {
-            responsive: true,
-           scaleSteps: 6,
+        responsive: true,
+        scaleSteps: 6,
         scaleOverride: true,
         scaleStepWidth: 2000 
-
-        
-        });
+    });
     setTimeout($.proxy(this.generateImage,this),1000); 
 }
 ChartsGenerate.prototype.generateImage = function(){
