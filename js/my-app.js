@@ -289,12 +289,27 @@ var ChartsGenerate = function(){
 ChartsGenerate.prototype.render =function(page){
     this.$page = $(page);
     this.page = Dom7(page);
+    this.mySlider = myApp.slider('.slider-1', {
+      spaceBetween: 50,
+      paginationHide:false,
+      onSlideChangeEnd:function(mySlider){
+        $(".page-charts .toolbar-inner .link:eq("+mySlider.activeSlideIndex+")").addClass("active").siblings().removeClass('active');
+        // self.getChart(mySlider.activeSlideIndex+1);
+      }
+    });
     this.operate();
 }
 ChartsGenerate.prototype.initcharts = function(option){
-    this.option = option;
-    this.myChart = echarts.init(document.getElementById('main'));
-    this.myChart.setOption(this.option);  
+    this.option1 = option;
+    this.myChart1 = echarts.init(document.getElementById('chart1'));
+    this.myChart1.setOption(this.option1);  
+
+    this.option2 = option;
+    this.option2.series[0].type='bar';
+    this.myChart2 = echarts.init(document.getElementById('chart2'));
+    this.myChart2.setOption(this.option2); 
+
+    this.myChart = this.myChart1;
     setTimeout($.proxy(this.generateImage,this),1000); 
 }
 ChartsGenerate.prototype.generateImage = function(){
@@ -355,6 +370,7 @@ ChartsGenerate.prototype.getUrl = function(str){
 //     })   
 // }
 ChartsGenerate.prototype.operate =function(){
+    var self=this;
     $$('.shareTo').on('click', function () {
         var buttons = [
             {
@@ -386,14 +402,18 @@ ChartsGenerate.prototype.operate =function(){
         ];
         myApp.actions(buttons);
     });
-    this.$page.find('.bar').on('click',$.proxy(function(){
-        this.option.series[0].type='bar';
-        this.initcharts(this.option);
-    },this))
-    this.$page.find('.line').on('click',$.proxy(function(){
-        this.option.series[0].type='line';
-        this.initcharts(this.option);
-    },this))
+    $(".page-charts .toolbar .link").on("click",function(){
+        $(this).addClass("active").siblings().removeClass('active');
+        self.mySwiper.slideTo($(this).index);
+    });
+    // this.$page.find('.bar').on('click',$.proxy(function(){
+    //     this.option.series[0].type='bar';
+    //     this.initcharts(this.option);
+    // },this))
+    // this.$page.find('.line').on('click',$.proxy(function(){
+    //     this.option.series[0].type='line';
+    //     this.initcharts(this.option);
+    // },this))
 }
 var chartsGenerate = new ChartsGenerate();
 chartsGenerate.render('.page-charts');

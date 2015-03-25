@@ -118,7 +118,22 @@
           </div>
           <div class="page cached page-charts" data-page="charts">
             <div class="page-content">
-               <div id="main" style="height:400px;width:100%"></div>
+             <!--   <div id="main" style="height:400px;width:100%"></div> -->
+                <div class="slider-container slider-1">
+                  <!-- <div class="slider-pagination"></div> -->
+                  <div class="slider-wrapper">
+                    <div class="slider-slide"> 
+                      <div id="canvas-holder1">
+                        <canvas id="chart1" width="350" height="200" />
+                      </div>
+                    </div>
+                    <div class="slider-slide">
+                        <div id="canvas-holder2">
+                            <canvas id="chart2" width="350" height="200" />
+                        </div>
+                    </div>
+                  </div>
+                </div>  
                <!-- JiaThis Button BEGIN -->
               <script type="text/javascript">
                 var jiathis_config = {
@@ -151,7 +166,7 @@
             <div class="toolbar">
               <div class="toolbar-inner">
                 <a href="#" class="link line" name="line">line</a>
-                <a href="#" class="bar" name="bar">bar</a>
+                <a href="#" class="link bar" name="bar">bar</a>
                 <a href="#index" class="link table" name="table">table</a>
               </div>
             </div>
