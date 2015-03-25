@@ -179,46 +179,72 @@ selectPage.render('.page-index');
 
 var ListGenerate = function(options) {
     this.option = {
-        title : {
-            text: 'ShotVis',
-            subtext: '纯属虚构'
-        },
-        tooltip : {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['yname']
-        },
-        toolbox: {
-            show : false,
-            feature : {
-                mark : {show: true},
-                dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['line', 'bar']},
-                restore : {show: true},
-                saveAsImage : {show: true}
-            }
-        },
-        calculable : true,
-        xAxis : [
+        labels : ["03.10", "03.09", "03.08", "03.07"],
+        datasets : [
             {
-                type : 'category',
-                data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'蒸发量',
-                type:'line',
-                data:['1111','2222','3333','44444']
-            }
+                label: "My First dataset",
+                fillColor: "rgba(256,256,256,0)",
+                strokeColor : "rgba(251,131,25,1)",
+                pointColor : "rgba(251,131,25,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(251,131,25,1)",
+                data: [10957.04, 123.45, 123.45, 123.45]
+             }
+            // {
+            //     label: "My Second dataset",
+            //     fillColor: "rgba(256,256,256,0)",
+            //     strokeColor : "rgba(98,98,98,1)",
+            //     pointColor : "rgba(98,98,98,1)",
+            //     pointStrokeColor : "#fff",
+            //     pointHighlightFill : "#fff",
+            //     pointHighlightStroke : "rgba(98,98,98,1)",
+            //     data: [1011.26, 111.11, 111.11, 111.11]
+            // }
         ]
+
     };
+    // this.option = {
+    //     title : {
+    //         text: 'ShotVis',
+    //         subtext: '纯属虚构'
+    //     },
+    //     tooltip : {
+    //         trigger: 'axis'
+    //     },
+    //     legend: {
+    //         data:['yname']
+    //     },
+    //     toolbox: {
+    //         show : false,
+    //         feature : {
+    //             mark : {show: true},
+    //             dataView : {show: true, readOnly: false},
+    //             magicType : {show: true, type: ['line', 'bar']},
+    //             restore : {show: true},
+    //             saveAsImage : {show: true}
+    //         }
+    //     },
+    //     calculable : true,
+    //     xAxis : [
+    //         {
+    //             type : 'category',
+    //             data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+    //         }
+    //     ],
+    //     yAxis : [
+    //         {
+    //             type : 'value'
+    //         }
+    //     ],
+    //     series : [
+    //         {
+    //             name:'蒸发量',
+    //             type:'line',
+    //             data:['1111','2222','3333','44444']
+    //         }
+    //     ]
+    // };
 }
 ListGenerate.prototype.render = function(page){
     this.$page = $(page);
@@ -269,11 +295,13 @@ ListGenerate.prototype.operate = function(){
         yarray.each(function(){
             ydata.push($(this).text());
         })
-        this.option.legend.data = [yname];
-        this.option.xAxis[0].data = xdata;
-        this.option.series[0].data = ydata;
-        this.option.series[0].name = yname;
-        this.option.title.subtext = '折线图';
+        // this.option.legend.data = [yname];
+        // this.option.xAxis[0].data = xdata;
+        // this.option.series[0].data = ydata;
+        // this.option.series[0].name = yname;
+        // this.option.title.subtext = '折线图';
+        this.option.label = ydata;
+        this.option.datasets[0].data = xdata;
         chartsGenerate.initcharts(this.option);   
     },this)); 
     $$(document).on('pageAfterAnimation', '.page[data-page="charts"]',  $.proxy(function (e) {
@@ -294,8 +322,16 @@ ChartsGenerate.prototype.render =function(page){
 }
 ChartsGenerate.prototype.initcharts = function(option){
     this.option = option;
-    this.myChart = echarts.init(document.getElementById('main'));
-    this.myChart.setOption(this.option);  
+    // this.myChart = echarts.init(document.getElementById('main'));
+    var ctx1 = document.getElementById("canvas").getContext("2d");
+    this.myChart = new Chart(ctx1).Line(this.option, {
+            responsive: true,
+           scaleSteps: 6,
+        scaleOverride: true,
+        scaleStepWidth: 2000 
+
+        
+        });
     setTimeout($.proxy(this.generateImage,this),1000); 
 }
 ChartsGenerate.prototype.generateImage = function(){
