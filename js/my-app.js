@@ -182,7 +182,7 @@ var ListGenerate = function(options) {
         datasets : [
             {
                 label: "My First dataset",
-                fillColor: "rgba(256,256,256,0)",
+                fillColor : "rgba(251,131,25,.2)",
                 strokeColor : "rgba(251,131,25,1)",
                 pointColor : "rgba(251,131,25,1)",
                 pointStrokeColor : "#fff",
